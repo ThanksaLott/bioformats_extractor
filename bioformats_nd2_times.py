@@ -11,8 +11,12 @@ import bioformats
 import pandas as pd
 import os
 javabridge.start_vm(class_path=bioformats.JARS)
-# Be careful with this. After starting a VM it needs to be killed.
-# After killing the vm it cannot be started in the same console ->RunTimeError
+# Be careful with this. After starting a VM it should be killed using
+# javabridge.kill_vm() # kill the java virtual machine
+# After killing the vm it cannot be started in the same console -> RunTimeError
+# see the following issues on that topic:
+# https://github.com/LeeKamentsky/python-javabridge/issues/161
+# https://github.com/LeeKamentsky/python-javabridge/issues/88
 
 def lines_to_times(meta_lines:list)->(list,list):
     """
@@ -119,16 +123,16 @@ def get_times(path:str)->pd.DataFrame:
     return df
 
 if __name__ == "__main__":
-    # path = 'N:/shared/Learning/Experiments/5ng_5x[1-3]/20220530_MCF7_Learning_5x[1-3]_Pulse_5ng/20220530_MCF7_Learning_5x[1-3]_5ng.nd2'
-    path = input("Provide a path:")
-    date = path.split("/")[-1].split("_")[0]
+    # path = input("Provide a path:")
+    path = "example_file/example.nd2"
+    name = path.split("/")[-1].split(".nd2")[0]
     df = get_times(path)
-    df.to_csv(os.path.join(os.path.dirname(path), date + "_metadata_image_times.csv"))
+    df.to_csv(os.path.join(os.path.dirname(path), name + "_metadata_image_times.csv"))
    
 # to apply to a whole folder containing several folders of experiments
 # iterates over all files, opens folders, searches whether appropriate nd2
 # files are present and then generates the metadata file.
-    # toppath = 'N:/shared/Learning/Experiments/Habituation'
+    # toppath = 'Toppath_path'
     # for file in os.listdir(toppath):
     #     if not os.path.isdir(os.path.join(toppath,file)):
     #         continue
@@ -144,7 +148,3 @@ if __name__ == "__main__":
     #         df.to_csv(os.path.join(os.path.dirname(nd_path), date + "_metadata_image_times.csv"))
     
 # javabridge.kill_vm() # kill the java virtual machine
-# After killing the vm it cannot be started in the same console -> RunTimeError
-# see the following issues on that topic:
-# https://github.com/LeeKamentsky/python-javabridge/issues/161
-# https://github.com/LeeKamentsky/python-javabridge/issues/88
