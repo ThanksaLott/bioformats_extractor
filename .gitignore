@@ -1,0 +1,11 @@
+# Ignore python cache stuff
+__pycache__/
+
+
+# Ignore Mac OS Stuff
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Ignore results in example
+# example_file/example.nd2_metadata_image_times.csv
