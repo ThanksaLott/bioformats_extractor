@@ -8,4 +8,4 @@ __pycache__/
 .LSOverride
 
 # Ignore results in example
-# example_file/example.nd2_metadata_image_times.csv
+example_file/*.csv
